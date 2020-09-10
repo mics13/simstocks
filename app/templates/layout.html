@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
+        <!-- <link rel="stylesheet" href="/static/flickity.css" media="screen"> -->
+        <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+        <link href="/static/favicon.ico" rel="icon">
+        <link rel="stylesheet" href="/static/styles.css" rel="stylesheet">
+        <title>Sim/Stocks: {% block title %}{% endblock %}</title>
+
+    </head>
+
+    <body id="body">
+        <div class="content">
+        <nav class="navbar navbar-expand-md navbar-dark">
+            <a class="navbar-brand" id="navIcon"href="/">Sim/Stocks <i class="fas fa-money-bill-wave" id="money"></i></a>
+            <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbar" data-toggle="collapse" type="button">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbar">
+                {% if current_user.is_authenticated %}
+                    <ul class="navbar-nav mr-auto mt-2">
+                        <li class="nav-item {{ 'active' if active_page == 'index' else ''}}"><a class="nav-link" href="/">Home</a></li>
+                        <li class="nav-item {{ 'active' if active_page == 'watchlist' else ''}}"><a class="nav-link" href="/watchlist">Watchlist</a></li>
+                        <li class="nav-item {{ 'active' if active_page == 'portfolio' else ''}}"><a class="nav-link" href="/portfolio">Portfolio</a></li>
+                        <li class="nav-item {{ 'active' if active_page == 'history' else ''}}"><a class="nav-link" href="/history">Transactions</a></li>
+                    </ul>
+                    <ul class="navbar-nav ml-auto mt-2">
+                        <li class="nav-item {{ 'active' if active_page == 'account' else ''}}"><a class="nav-link" href="/account">Account</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
+                    </ul>
+                {% else %}
+                    <ul class="navbar-nav ml-auto mt-2">
+                        <li class="nav-item {{ 'active' if active_page == 'register' else ''}}"><a class="nav-link" href="/register">Register</a></li>
+                        <li class="nav-item {{ 'active' if active_page == 'login' else ''}}"><a class="nav-link" href="/login">Log In</a></li>
+                    </ul>
+                {% endif %}
+            </div>
+        </nav>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-dark text-center" role="alert">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <main class="container pt-4 pb-4">
+            {% block main %}{% endblock %}
+        </main>
+        </div>
+        <footer class="small text-center">
+            Data provided for free by <a href="https://iextrading.com/developer">IEX</a>. View <a href="https://iextrading.com/api-exhibit-a/">IEX’s Terms of Use</a>.
+        </footer>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+        <!-- <script src="/static/flickity.pkgd.js"></script> -->
+        <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+        <script src="/static/script.js"></script>
+    </body>
+
+</html>

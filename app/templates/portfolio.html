@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+{% set active_page = "portfolio" %}
+
+{% block title %}
+    Portfolio
+{% endblock %}
+
+{% block main %}
+
+<div id="sellPort">
+  <div id="sell">
+    <button type="button" class="collapsible">Sell</button>
+    <div class="collapse-child">
+      <form action="{{ url_for('sell') }}" method="post">
+        {{ sellForm.hidden_tag() }}
+        <div class="form-group">
+          {{ sellForm.symbol(class_="form-control sell", placeholder='Symbol') }}
+        </div>
+        <div class="form-group">
+          {{ sellForm.share(class_="form-control sell", placeholder='Share(s)') }}
+        </div>
+        {{ sellForm.submit(class_="btn ssbtn") }}
+        <!-- <button class="btn ssbtn" id="Sell" type="submit">Sell</button> -->
+      </form>
+    </div>
+  </div>
+  <div id="portfolio">
+    <table class="table table-striped">
+      <thead>
+           <tr>
+                <th scope="col">Symbol</th>
+                <th scope="col">Name</th>
+                <th scope="col">Shares</th>
+                <th scope="col">Price</th>
+                <th scope="col">TOTAL</th>
+            </tr>
+      </thead>
+      <tbody>
+        {% for row in rows %}
+        <tr>
+          <td>{{ row[0] }}</td>
+          <td>{{ row[1] }}</td>
+          <td>{{ row[2] }}</td>
+          <td>{{ row[3] | usd }}</td>
+          <td>{{ row[4] | usd }}</td>
+        </tr>
+        {% endfor %}
+        <tr id="cash">
+          <td>CASH</td>
+          <td colspan="3"></td>
+          <td>{{ cash | usd }}</td>
+        </tr>
+      </tbody>
+      <tfoot id="tfoot">
+        <td colspan="4"></td>
+        <td class="font-weight-bold">{{ total | usd }}</td>
+      </tfoot>
+    </table>
+  </div>
+</div>      
+{% endblock %}

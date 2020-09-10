@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% set active_page = "account" %}
+
+{% block title %}
+    Account
+{% endblock %}
+
+{% block main %}
+<div class="form-container">
+    <div class="mb-2 profile">
+        <div class="d-flex flex-column">
+            <h1 class="mb-2" id="profileHead">Profile</h1>
+            <span class="emphasize">Username:</span> 
+            <span>{{ username }}</span>
+            <span class="emphasize">Cash Balance:</span>
+            <span>{{ cash|usd }}</span>
+            <span class="emphasize">Email:</span> 
+            <span>{{ email }}</span>
+        </div>
+        <img class="avatar" src="{{ user.avatar(128) }}">
+    </div>
+    
+    <div class="btnContainer flex-column">
+        <button class="btn ssbtn m-2">
+            <a href={{ url_for("password") }}>Change Password</a>
+        </button>
+        <button class="btn ssbtn m-2">
+            <a href={{ url_for("email") }}>Update Email</a>
+        </button>
+    </div>
+</div>
+{% endblock %}

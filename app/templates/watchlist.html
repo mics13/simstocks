@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+{% set active_page = "watchlist" %}
+
+{% block title %}
+    Watchlist
+{% endblock %}
+
+{% block main %}
+<div id="quote" class="col-md-12 col-lg-12">
+    <button type="button" class="collapsible">Get a quote</button>
+        <div class="collapse-child">
+            <form action="{{ url_for('add') }}" method="POST">
+                {{ watchForm.hidden_tag() }}
+                <div class="form-group">
+                    {{ watchForm.symbol(class_="form-control", placeholder='Symbol') }}
+                </div>
+                <span id="quoteSlip"></span>
+                <div class="btnContainer">
+                    <span class="btn ssbtn" id="getQuote">Quote</span>
+                    {{ watchForm.submitAdd(class_="btn ssbtn") }}
+                </div>
+            </form>
+        </div>
+</div>
+<div class="Container row" id="watchBuyContainer">
+    <div id="buy" class="col-md-12 col-lg-3">
+        <button type="button" class="collapsible">Buy</button>
+        <div class="collapse-child">
+            <form action="{{ url_for('buy') }}" method="post">
+                {{ buyForm.hidden_tag() }}
+                <div class="form-group">
+                    {{ buyForm.symbol(class_="form-control buy", placeholder='Symbol') }}
+                </div>
+                <div class="form-group">
+                    {{ buyForm.share(class_="form-control buy", placeholder='Share(s)') }}
+                </div>
+                {{ buyForm.submitBuy(class_="btn ssbtn") }}
+            </form>
+        </div>
+    </div>
+    <div class="col-md-12 col-lg-9" id="watchlist">
+        <table class="table table-striped">
+            <thead id="watchHead">
+                <tr>
+                    <th scope="col">Symbol</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Price</th>
+               </tr>
+            </thead>
+            <tbody>
+            {% for watch in watch_lst %}
+            <tr>
+                <td>{{ watch[0] }}</td>
+                <td>{{ watch[1] }}</td>
+                <td>{{ watch[2]|usd }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="static/quotescript.js"></script>
+{% endblock %}
+

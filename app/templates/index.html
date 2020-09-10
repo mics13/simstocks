@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% set active_page = "index" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+<div class="carousel smallViewSwitch" data-flickity='{ "watchCSS": true }'>
+    <!-- images from unsplash.com -->
+    <div class="carousel-cell">
+      <img src="static/stocks.jpg" alt="Welcome to SimStocks"/>
+      <!-- <span>Photo by <a href="https://unsplash.com/@bash__profile?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">NICHOLAS CAPPELLO</a> on <a href="https://unsplash.com/s/photos/trading?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span> -->
+      <div class="carousel-content">
+        <span>Build your portfolio and trade stocks in real-time without risking a penny!</span>
+      </div>
+    
+    </div>
+     <div class="carousel-cell">
+      <img src="static/edu.jpg" alt="Fear-free learning experience"/>
+      <div class="carousel-content">
+        <span>Investing in stock market can be overwhelming for beginners. SimStocks simplified things to help you start learning about investment.</span>
+        <!-- <span>Photo by <a href="https://www.flickr.com/photos/143106192@N03/">Mike Cohan</a> on <a href="https://www.flickr.com/photos/143106192@N03/43513741842/in/faves-189385041@N02/">flickr</a></span> -->
+      </div>
+    </div>
+
+    <div class="carousel-cell">
+      <img src="static/responsive.png" alt="Learn to Invest"/>
+      <div class="carousel-content">
+        <span>SimStocks adopts responsive web design to provide consistent experience across any device and screen size.</span>
+      </div>
+    </div>
+  </div>
+{% endblock %}

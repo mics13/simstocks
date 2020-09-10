@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% set active_page = "login" %}
+
+{% block title %}
+    Sign In
+{% endblock %}
+
+{% block main %}
+<div class="form-container">
+    <h1 class="form-header">Welcome Back</h1>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.username(class_="form-control", placeholder='Username') }}
+        </div>
+        {% for error in form.username.errors %}
+            <span class="form-error">[{{ error }}]</span>
+        {% endfor %}
+        <div class="form-group">
+            {{ form.password(class_="form-control", placeholder='Password') }}
+        </div>
+        {% for error in form.password.errors %}
+            <span class="form-error">[{{ error }}]</span>
+        {% endfor %}
+        <br>
+        {{ form.submit(class_="btn ssbtn") }}
+    </form>
+    <p id="forget">
+        Forgot Your Password?
+        <a href="{{ url_for('reset_password_request') }}">Click to Reset It</a>
+    </p>
+</div>
+{% endblock %}
