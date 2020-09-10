@@ -99,6 +99,26 @@ button.collapsible.active:after {
     margin-top: 0.7rem;
 }
 
+.intro {
+    margin: auto;
+    margin-top: 5rem;
+    max-width: 800px;
+}
+
+.fa-graduation-cap {
+    font-size: 3rem;
+}
+
+hr.hr {
+    border-top: 1px dotted #f3cc62;
+    margin: 0;
+    margin-bottom: 5px;
+}
+
+.indexp {
+    margin-bottom: 0.4rem;
+}
+
 #forget {
     margin: 1rem;
 }
@@ -274,13 +294,6 @@ thead {
 }
 
 /* csstrick */
-.smallViewSwitch {
-    display: flex;
-    flex-direction: column;
-}
-
-
-
 * { box-sizing: border-box; }
 
 body { font-family: sans-serif; }
