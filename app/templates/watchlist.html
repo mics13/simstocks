@@ -12,7 +12,7 @@
             <form action="{{ url_for('add') }}" method="POST">
                 {{ watchForm.hidden_tag() }}
                 <div class="form-group">
-                    {{ watchForm.symbol(class_="form-control", placeholder='Symbol') }}
+                    {{ watchForm.symbol(class_="form-control UserInput", placeholder='Symbol') }}
                 </div>
                 <span id="quoteSlip"></span>
                 <div class="btnContainer">

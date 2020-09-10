@@ -169,7 +169,8 @@ main .form-control
     /* center form controls */
     display: inline-block;
     /* override Bootstrap's 100% width for form controls */
-    width: 70%;
+    width: 60%;
+    max-width: 450px;
     background-color:#313131;
     border: none;
     color: #f3cc62;

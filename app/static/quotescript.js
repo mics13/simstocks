@@ -4,7 +4,7 @@ const apiUrl = 'https://cloud.iexapis.com/stable/stock/';
 const qtk = '/quote?token=pk_95d7f54ba98547d3a67b8b8a88c7bf70';
 
 function getQuote() {
-  var input = document.querySelector("#UserInput").value;
+  var input = document.querySelector(".UserInput").value;
   var url= (apiUrl + input + qtk);
   fetch(url).then(function(response) {
     // Shorthand to check for an HTTP 2xx response status.

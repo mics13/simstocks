@@ -99,6 +99,9 @@ def watchlist():
   # for page rendering
   watch_lst = []
   watches = Watch.query.filter_by(user=user).all()
+  if len(watches) == 0:
+    flash("Your watchlist is empty. Add symbols at 'Get a Quote'!")
+    return render_template("watchlist.html", watch_lst=watch_lst, title='Watchlist', watchForm=watchForm, buyForm=buyForm)
   for watch in watches:
     quote = lookup(watch.symbol)
     watch_lst.append((quote["symbol"], quote["name"], quote["price"]))
@@ -172,10 +175,11 @@ def portfolio():
   # check users cash balance
   balance = user.cash
   # fetch all stocks owned and get current price
-  port = db.session.query(History.symbol, History.name, func.sum(History.share).label("shares")).filter_by(user=user).group_by(History.symbol, History.name).having(func.sum(History.share)>0)    
+  port = db.session.query(History.symbol, History.name, func.sum(History.share).label("shares")).filter_by(user=user).group_by(History.symbol, History.name).having(func.sum(History.share)>0)   
   # if the user is not holding any stock, we only show the cash he holds, and of course his account total = cash
   if port.count()== 0:
-    return render_template("portfolio.html", rows=[], cash=balance, total=balance)
+    flash("Your portfolio is empty. Check out Watchlist.")
+    return render_template("portfolio.html", rows=[], cash=balance, total=balance, sellForm=sellForm)
   # create a new list for table rendering
   # convert the tuples in records into list and append current price and current stock worth
   rows = []
