@@ -44,7 +44,7 @@ class WatchForm(FlaskForm):
 
 class BuyForm(FlaskForm):
   symbol = StringField('Symbol', validators=[DataRequired(), Length(min=1, max=5)])
-  share = IntegerField('Share', validators=[DataRequired()])
+  share = IntegerField('Share', validators=[DataRequired(), NumberRange(min=1, message="Share Minimum=1")])
   submitBuy = SubmitField('Buy')
 
 class SellForm(FlaskForm):

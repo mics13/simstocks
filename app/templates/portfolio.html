@@ -11,7 +11,7 @@
   <div id="sell">
     <button type="button" class="collapsible">Sell</button>
     <div class="collapse-child">
-      <form action="{{ url_for('sell') }}" method="post">
+      <form action="" method="post">
         {{ sellForm.hidden_tag() }}
         <div class="form-group">
           {{ sellForm.symbol(class_="form-control sell", placeholder='Symbol') }}

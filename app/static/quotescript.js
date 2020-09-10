@@ -23,6 +23,8 @@ function getQuote() {
     quote.innerText = quotation;
   }).catch(function(error) {
     console.log('Request failed:', error.message);
+    quotation = `No Data associated with ${input.toUpperCase()}`;
+    quote.innerText = quotation;
   });
 }
 

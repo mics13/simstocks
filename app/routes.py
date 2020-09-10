@@ -116,7 +116,7 @@ def add():
   if watchForm.validate_on_submit():
     quote = lookup(watchForm.symbol.data)
     if quote == None:
-      flash("No Data")
+      flash(f"No Data associated with {watchForm.symbol.data.upper()}")
       return redirect(url_for("watchlist"))
     # check if symbol in watchlist, if not in watchlist, add to watchlist
     try:
@@ -146,7 +146,7 @@ def buy():
     # lookup for price
     quote = lookup(buyForm.symbol.data)
     if quote == None:
-      flash("No Data")
+      flash(f"No Data associated with {buyForm.symbol.data.upper()}")
       return redirect(url_for('watchlist'))
     # query how much cash the user currently has
     balance = user.cash
@@ -166,11 +166,38 @@ def buy():
   flash("Invalid Input")
   return redirect(url_for("watchlist")) 
   
-@app.route("/portfolio")
+@app.route("/portfolio", methods=["GET", "POST"])
 @login_required
 def portfolio():
   sellForm = SellForm()
   user = Users.query.filter_by(username=current_user.username).first_or_404()
+  if request.method == "POST":
+    if sellForm.validate_on_submit():
+      # validate symbol
+      quote = lookup(sellForm.symbol.data)
+      if quote == None:
+        flash(f"No Data associated with {sellForm.symbol.data.upper()}")
+        return redirect(url_for("portfolio"))
+      # fetch number of symbols owned, return tuple
+      shareOwned = db.session.query(func.sum(History.share).label("shares")).filter_by(user=user, symbol=quote['symbol']).first() 
+      # shareOwned = db.session.execute("SELECT SUM(share) FROM history WHERE user_id = (SELECT id FROM Users WHERE username = :name) AND symbol = :symbol", {"name": session["user_id"], "symbol": symbol_sell}).first()
+      print(shareOwned)
+      if shareOwned[0] == None or shareOwned[0] < sellForm.share.data:
+        flash("You don't have enough share.")    
+        return redirect(url_for("portfolio"))
+      else:
+        # query how much cash the user currently has 
+        balance = user.cash
+        # update user cash balance
+        user.cash = balance + decimal.Decimal(sellForm.share.data * quote["price"])
+        # insert new transction history
+        tran = History(user=user, symbol=quote["symbol"], name=quote["name"], price=quote["price"], share=-sellForm.share.data)
+        db.session.add(tran)
+        db.session.commit()
+        flash("{} successfully sold {} shares of {} at ${}".format(user.username, sellForm.share.data, quote["symbol"], quote["price"]))
+        return redirect(url_for("portfolio"))
+    flash("Invalid Input")
+    return redirect(url_for("portfolio"))
   # render user's portfolio
   # check users cash balance
   balance = user.cash
@@ -196,35 +223,12 @@ def portfolio():
   total = balance + decimal.Decimal(shareWorth)
   return render_template("portfolio.html", rows=rows, cash=balance, total=total, sellForm=sellForm)
 
-@app.route("/sell", methods=["POST"])
-def sell(): 
-  sellForm = SellForm()
-  user = Users.query.filter_by(username=current_user.username).first_or_404()
-  if sellForm.validate_on_submit():
-    # fetch number of symbols owned, return tuple
-    shareOwned = db.session.query(func.sum(History.share).label("shares")).filter_by(user=user, symbol=sellForm.symbol.data).first() 
-    # shareOwned = db.session.execute("SELECT SUM(share) FROM history WHERE user_id = (SELECT id FROM Users WHERE username = :name) AND symbol = :symbol", {"name": session["user_id"], "symbol": symbol_sell}).first()
-    if shareOwned[0] == None or shareOwned[0] < sellForm.share.data:
-      quote = lookup(sellForm.symbol.data)
-      if quote == None:
-        flash("No Data")
-        return redirect(url_for("portfolio"))
-      flash("You don't have enough share.")    
-      return redirect(url_for("portfolio"))
-    else:
-      # fetch price
-      quote = lookup(sellForm.symbol.data)
-      # query how much cash the user currently has 
-      balance = user.cash
-      # update user cash balance
-      user.cash = balance + decimal.Decimal(sellForm.share.data * quote["price"])
-      # insert new transction history
-      tran = History(user=user, symbol=quote["symbol"], name=quote["name"], price=quote["price"], share=-sellForm.share.data)
-      db.session.add(tran)
-      db.session.commit()
-      flash("{} successfully sold {} shares of {} at ${}".format(user.username, sellForm.share.data, quote["symbol"], quote["price"]))
-      return redirect(url_for('.portfolio'))
-  return render_template('portfolio.html', title='Sign In', sellForm=sellForm)
+# @app.route("/sell", methods=["POST"])
+# def sell(): 
+#   sellForm = SellForm()
+#   user = Users.query.filter_by(username=current_user.username).first_or_404()
+  
+#   return render_template('portfolio.html', title='Sign In', sellForm=sellForm)
 
 @app.route("/history")
 @login_required
