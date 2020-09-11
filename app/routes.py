@@ -86,7 +86,7 @@ def email():
     user.email = form.email.data
     db.session.commit()
     flash('Your Email has been changed')
-    return redirect(url_for('email'))
+    return redirect(url_for('account'))
   return render_template('email.html', title='Email', form=form)
 
 @app.route("/watchlist")
@@ -202,7 +202,7 @@ def portfolio():
   # check users cash balance
   balance = user.cash
   # fetch all stocks owned and get current price
-  port = db.session.query(History.symbol, History.name, func.sum(History.share).label("shares")).filter_by(user=user).group_by(History.symbol, History.name).having(func.sum(History.share)>0)   
+  port = db.session.query(History.symbol, History.name, func.sum(History.share).label("shares")).filter_by(user=user).having(func.sum(History.share)>0).group_by(History.symbol, History.name)
   # if the user is not holding any stock, we only show the cash he holds, and of course his account total = cash
   if port.count()== 0:
     flash("Your portfolio is empty. Check out Watchlist.")
