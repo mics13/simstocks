@@ -12,7 +12,7 @@
             <form action="{{ url_for('add') }}" method="POST">
                 {{ watchForm.hidden_tag() }}
                 <div class="form-group">
-                    {{ watchForm.symbol(class_="form-control UserInput", placeholder='Symbol') }}
+                    {{ watchForm.symbol(class_="form-control UserInput", placeholder='Symbol', id=False) }}
                 </div>
                 <span id="quoteSlip"></span>
                 <div class="btnContainer">
@@ -29,10 +29,10 @@
             <form action="{{ url_for('buy') }}" method="post">
                 {{ buyForm.hidden_tag() }}
                 <div class="form-group">
-                    {{ buyForm.symbol(class_="form-control buy", placeholder='Symbol') }}
+                    {{ buyForm.symbol(class_="form-control buy", placeholder="Symbol", id=False) }}
                 </div>
                 <div class="form-group">
-                    {{ buyForm.share(class_="form-control buy", placeholder='Share(s)') }}
+                    {{ buyForm.share(class_="form-control buy", placeholder="Share(s)") }}
                 </div>
                 {{ buyForm.submitBuy(class_="btn ssbtn") }}
             </form>

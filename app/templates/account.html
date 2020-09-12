@@ -21,12 +21,8 @@
     </div>
     
     <div class="btnContainer flex-column">
-        <button class="btn ssbtn m-2">
-            <a href={{ url_for("password") }}>Change Password</a>
-        </button>
-        <button class="btn ssbtn m-2">
-            <a href={{ url_for("email") }}>Update Email</a>
-        </button>
+        <a class="btn ssbtn m-2" href={{ url_for("password") }}>Change Password</a>
+        <a class="btn ssbtn m-2" href={{ url_for("email") }}>Update Email</a>
     </div>
 </div>
 {% endblock %}

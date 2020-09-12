@@ -11,7 +11,7 @@
   <div id="sell">
     <button type="button" class="collapsible">Sell</button>
     <div class="collapse-child">
-      <form action="" method="post">
+      <form action="/portfolio" method="post">
         {{ sellForm.hidden_tag() }}
         <div class="form-group">
           {{ sellForm.symbol(class_="form-control sell", placeholder='Symbol') }}
@@ -52,8 +52,10 @@
         </tr>
       </tbody>
       <tfoot id="tfoot">
-        <td colspan="4"></td>
-        <td class="font-weight-bold">{{ total | usd }}</td>
+        <tr>
+          <td colspan="4"></td>
+          <td class="font-weight-bold">{{ total | usd }}</td>
+        </tr>
       </tfoot>
     </table>
   </div>

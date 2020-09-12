@@ -8,7 +8,7 @@
 {% block main %}
 <div class="form-container">
     <h1 class="form-header">Change Email</h1>
-    <form action="" method="post">
+    <form action="/email" method="post">
         {{ form.hidden_tag() }}
         <div class="form-group">
             {{ form.email(class_="form-control", placeholder='New Email Address') }}

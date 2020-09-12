@@ -8,7 +8,7 @@
 {% block main %}
 <div class="form-container">
     <h1 class="form-header">Welcome Back</h1>
-    <form action="" method="post" novalidate>
+    <form action="/login" method="post" novalidate>
         {{ form.hidden_tag() }}
         <div class="form-group">
             {{ form.username(class_="form-control", placeholder='Username') }}
