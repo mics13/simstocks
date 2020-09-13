@@ -38,8 +38,9 @@ def login():
     return redirect(url_for('index'))
   form = LoginForm()
   if form.validate_on_submit():
-    user = Users.query.filter_by(username=form.username.data).first_or_404()
+    user = Users.query.filter_by(username=form.username.data).first()
     if user is None or not user.check_password(form.password.data):
+      print(user)
       flash('Invalid username or password')
       return redirect(url_for('login'))
     login_user(user, remember=form.remember_me.data)
@@ -59,7 +60,7 @@ def logout():
 @app.route("/account")
 @login_required
 def account():
-  user = Users.query.filter_by(username=current_user.username).first_or_404()
+  user = Users.query.filter_by(username=current_user.username).first()
   return render_template("account.html", username=current_user.username, cash=current_user.cash, email=current_user.email, user=user)
 
 @app.route("/password", methods=["GET", "POST"])
@@ -68,7 +69,7 @@ def password():
   form = PasswordForm()
   if form.validate_on_submit():
     # Insert into database new password
-    user = Users.query.filter_by(username=current_user.username).first_or_404()
+    user = Users.query.filter_by(username=current_user.username).first()
     user.set_password(form.password.data)
     db.session.commit()
     flash('Your password has been changed')
@@ -82,7 +83,7 @@ def email():
   form = EmailForm()
   if form.validate_on_submit():
     # Insert into database new password
-    user = Users.query.filter_by(username=current_user.username).first_or_404()
+    user = Users.query.filter_by(username=current_user.username).first()
     user.email = form.email.data
     db.session.commit()
     flash('Your Email has been changed')
@@ -95,7 +96,7 @@ def watchlist():
   watchForm = WatchForm()
   buyForm = BuyForm()
   # load user info
-  user = Users.query.filter_by(username=current_user.username).first_or_404()
+  user = Users.query.filter_by(username=current_user.username).first()
   # for page rendering
   watch_lst = []
   watches = Watch.query.filter_by(user=user).all()
@@ -109,10 +110,11 @@ def watchlist():
   
   
 @app.route("/add", methods=["POST"])
+@login_required
 def add():
   watchForm = WatchForm()
   # load user info
-  user = Users.query.filter_by(username=current_user.username).first_or_404()
+  user = Users.query.filter_by(username=current_user.username).first()
   if watchForm.validate_on_submit():
     quote = lookup(watchForm.symbol.data)
     if quote == None:
@@ -138,10 +140,11 @@ def add():
   #   return redirect(url_for('watchlist'))
 
 @app.route("/buy", methods=["POST"])
+@login_required
 def buy(): 
   buyForm = BuyForm()
   # load user info
-  user = Users.query.filter_by(username=current_user.username).first_or_404()
+  user = Users.query.filter_by(username=current_user.username).first()
   if buyForm.validate_on_submit():
     # lookup for price
     quote = lookup(buyForm.symbol.data)
@@ -170,7 +173,7 @@ def buy():
 @login_required
 def portfolio():
   sellForm = SellForm()
-  user = Users.query.filter_by(username=current_user.username).first_or_404()
+  user = Users.query.filter_by(username=current_user.username).first()
   if request.method == "POST":
     if sellForm.validate_on_submit():
       # validate symbol
@@ -223,18 +226,11 @@ def portfolio():
   total = balance + decimal.Decimal(shareWorth)
   return render_template("portfolio.html", rows=rows, cash=balance, total=total, sellForm=sellForm)
 
-# @app.route("/sell", methods=["POST"])
-# def sell(): 
-#   sellForm = SellForm()
-#   user = Users.query.filter_by(username=current_user.username).first_or_404()
-  
-#   return render_template('portfolio.html', title='Sign In', sellForm=sellForm)
-
 @app.route("/history")
 @login_required
 def history():
   """Show history of transactions"""
-  user = Users.query.filter_by(username=current_user.username).first_or_404()
+  user = Users.query.filter_by(username=current_user.username).first()
   h = History.query.filter_by(user=user).all()
   return render_template("history.html", rows=h)
 
