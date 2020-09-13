@@ -40,7 +40,6 @@ def login():
   if form.validate_on_submit():
     user = Users.query.filter_by(username=form.username.data).first()
     if user is None or not user.check_password(form.password.data):
-      print(user)
       flash('Invalid username or password')
       return redirect(url_for('login'))
     login_user(user, remember=form.remember_me.data)
@@ -184,7 +183,6 @@ def portfolio():
       # fetch number of symbols owned, return tuple
       shareOwned = db.session.query(func.sum(History.share).label("shares")).filter_by(user=user, symbol=quote['symbol']).first() 
       # shareOwned = db.session.execute("SELECT SUM(share) FROM history WHERE user_id = (SELECT id FROM Users WHERE username = :name) AND symbol = :symbol", {"name": session["user_id"], "symbol": symbol_sell}).first()
-      print(shareOwned)
       if shareOwned[0] == None or shareOwned[0] < sellForm.share.data:
         flash("You don't have enough share.")    
         return redirect(url_for("portfolio"))
