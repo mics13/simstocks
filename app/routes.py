@@ -230,6 +230,8 @@ def history():
   """Show history of transactions"""
   user = Users.query.filter_by(username=current_user.username).first()
   h = History.query.filter_by(user=user).all()
+  if len(h) == 0:
+    flash("No Transaction History Found")
   return render_template("history.html", rows=h)
 
 @app.route('/reset_password_request', methods=['GET', 'POST'])
