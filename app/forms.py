@@ -41,6 +41,8 @@ class EmailForm(FlaskForm):
 class WatchForm(FlaskForm):
   symbol = StringField('Symbol', validators=[DataRequired(), Length(min=1, max=5, message="Invalid Symbol")])
   submitAdd = SubmitField('Add to Watchlist')
+  class Meta:
+    csrf = False
 
 class BuyForm(FlaskForm):
   symbol = StringField('Symbol', validators=[DataRequired(), Length(min=1, max=5)])
