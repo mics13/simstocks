@@ -17,14 +17,16 @@
                 </tr>
             </thead>
             <tbody>
-            {% for row in rows %}
-            <tr>
-                <td>{{ row.symbol }}</td>
-                <td>{{ row.share }}</td>
-                <td>{{ row.price | usd }}</td>
-                <td>{{ row.time.strftime("%d %B, %Y, %H:%M:%S") }}</td>
-            </tr>
-            {% endfor %}
+            {% if rows %}
+                {% for row in rows %}
+                <tr>
+                    <td>{{ row.symbol }}</td>
+                    <td>{{ row.share }}</td>
+                    <td>{{ row.price | usd }}</td>
+                    <td>{{ row.time.strftime("%d %B, %Y, %H:%M:%S") }}</td>
+                </tr>
+                {% endfor %}
+            {% endif %}
             </tbody>
         </table>
     </div>

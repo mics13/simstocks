@@ -10,7 +10,6 @@
     <button type="button" class="collapsible">Get a quote</button>
         <div class="collapse-child">
             <form action="{{ url_for('add') }}" method="POST">
-                {{ watchForm.hidden_tag() }}
                 <div class="form-group">
                     {{ watchForm.symbol(class_="form-control UserInput", placeholder='Symbol', id=False) }}
                 </div>
