@@ -12,7 +12,7 @@ class LoginForm(FlaskForm):
 class RegistrationForm(FlaskForm):
   username = StringField('Username', validators=[DataRequired()])
   email = StringField('Email', validators=[DataRequired(), Email()])
-  password = PasswordField('Password', validators=[DataRequired(), Regexp(r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[~`!@#$%^&*()-_=+{[|}:;'?\/>.<\"\]\\,])[\w\d~`!@#$%^&*()-_=+{[|}:;'?\/>.<\"\]\\,]{6,}")])
+  password = PasswordField('Password', validators=[DataRequired(), Regexp(r"^(?=.*\d)(?=.*[~!@#$%^&*()_+{}|\[\]:`\";':?/.,<>=-])(?=.*[a-zA-Z]).{6,}")])
   password2 = PasswordField(
     'Confirmation', validators=[DataRequired(), EqualTo('password')])
   submit = SubmitField('Register')
@@ -28,7 +28,7 @@ class RegistrationForm(FlaskForm):
       raise ValidationError('Please use a different email address.')
 
 class PasswordForm(FlaskForm):
-  password = PasswordField('Password', validators=[DataRequired(), Regexp(r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[~`!@#$%^&*()-_=+{[|}:;'?\/>.<\"\]\\,])[\w\d~`!@#$%^&*()-_=+{[|}:;'?\/>.<\"\]\\,]{6,}")])
+  password = PasswordField('Password', validators=[DataRequired(), Regexp(r"^(?=.*\d)(?=.*[~!@#$%^&*()_+{}|\[\]:`\";':?/.,<>=-])(?=.*[a-zA-Z]).{6,}")])
   password2 = PasswordField(
     'Confirmation', validators=[DataRequired(), EqualTo('password')])
   submit = SubmitField('Change Password')
